@@ -38,18 +38,18 @@ def one_cls_aug(image_list, aug_ratio, aug_method_list):
             if count > need_aug_image_num:
                 break
             after_aug_image_list.append(choice(aug_method_list)(one_image))
-        print("我走的第一条路")
+
 
     # 2、要求数据增加的比例<=数据增加的可用方法+1(原图数量*增强方法的数量>=需要达到的数据量)     int(aug_ratio)+1次遍历原图，遍历使用增强方法增强数据，直到达到目标数量
     elif aug_ratio <= method_num + 1:
         count = 0
-        for i in range(math.ceil(aug_ratio)):
+        for i in range(math.ceil(aug_ratio) - 1):
             for one_image in image_list:
                 count += 1
                 if count > need_aug_image_num:
                     break
                 after_aug_image_list.append(aug_method_list[i](one_image))
-        print("我走的第二条路")
+
     # 3、要求数据增加的比例<=数据增加可用方法的组合极限（原图数量*（2的n次方，n为增强方法的数量）） 采用自己做这件事的思路来循环，增强后放回，在对放回后的完整数据增强，然后再放回
     elif aug_ratio <= pow(2, method_num):
         count = 0
@@ -61,7 +61,6 @@ def one_cls_aug(image_list, aug_ratio, aug_method_list):
                     break
                 one_aug_image_list.append(aug_method_list[i](one_image))
             image_list.extend(one_aug_image_list)
-        print("我走的第三条路")
 
     after_aug_image_list.extend(image_list)
     return after_aug_image_list
@@ -74,7 +73,7 @@ if __name__ == '__main__':
         img_path = os.path.join(src, img)
         src_image = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), 1)
         _image_list.append(src_image)
-    _aug_ratio = 1.1
+    _aug_ratio = 2
     _aug_method_list = [Horizontal, Vertical, Blur]
 
     output = one_cls_aug(_image_list, _aug_ratio, _aug_method_list)
