@@ -50,7 +50,7 @@ class Cutout(object):
 
 if __name__ == '__main__':
     img_path = r'C:\Users\Administrator\Desktop\imgs\1.jpg'
-    # cv:hwc   pil
+    # opencv:hwc   pil
     src_img = cv2.imread(img_path)
     cv2.imshow('src', src_img)
     img = torch.from_numpy(src_img.transpose((2, 0, 1)))

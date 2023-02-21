@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-# import cv2 as cv
+# import cv2 as opencv
 from skimage import io
 import matplotlib.pyplot as plt
 from tqdm import tqdm

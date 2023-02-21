@@ -7,10 +7,10 @@
     5. 像素平移（往一个方向平移像素，空出部分自动填补黑色）
     6. 添加噪声（椒盐噪声，高斯噪声）
 
-
-
 '''
 import os
+import time
+
 import cv2
 import numpy as np
 import random
@@ -265,13 +265,32 @@ def random_move(root_path, imagefile_name):
 
 if __name__ == "__main__":
     # test_jpg_loc = r"E:\项目整理\0_2023_213\class图片\大面_4\0_cando\大面凹坑细分(轻微凹坑)cls_11_10-2023-2-8 15-11-33_placed_well\val\严重凹坑\0.999232_TB_0IQCB17940000HCAM9001289_2022_1.bmp"
-    test_jpg_loc = r"1.png"
-    test_jpg = cv2.imread(test_jpg_loc)
-    cv2.imshow("Show Img", test_jpg)
-    img_scale = Scale(test_jpg, 1.5, 1.5)
-    # cv2.imwrite(os.path.join(a, "scaledl" + file_i), img_scale)
-    # cv2.imwrite('try.jpg', img1)
+    # test_jpg_loc = r"1.png"
+    # test_jpg = cv2.imread(test_jpg_loc)
+    # cv2.imshow("Show Img", test_jpg)
+    # # img_scale = Scale(test_jpg, 1.5, 1.5)
+    # # cv2.imwrite(os.path.join(a, "scaledl" + file_i), img_scale)
+    # # cv2.imwrite('try.jpg', img1)
+    # # cv2.waitKey(0)
+    # # img2 = GaussianNoise(test_jpg,0.01)
+    # output_img = Horizontal(test_jpg)
+    # # output_img = Vertical(test_jpg)
+    # cv2.imshow("Img 2", output_img)
     # cv2.waitKey(0)
-    # img2 = GaussianNoise(test_jpg,0.01)
-    cv2.imshow("Img 2", img_scale)
-    cv2.waitKey(0)
+    src = r'C:\Users\Thor\Desktop\noone\image1\all_image'
+    aug_name_list = ["horizontal", "vertical", "blur", "brighter", "darker"]
+    aug_list = [Horizontal, Vertical, Blur, Brighter, Darker]
+
+    for idx, aug_name in enumerate(aug_list):
+        print(f"{aug_name_list[idx]}开始进行...")
+        dst = src + f"_{aug_name_list[idx]}"
+        os.makedirs(dst, exist_ok=True)
+        for img_name in tqdm(os.listdir(src)):
+            img_path = os.path.join(src, img_name)
+            dst_path = f"{dst}/{os.path.splitext(img_name)[0]}_{aug_name_list[idx]}{os.path.splitext(img_name)[-1]}"
+
+            src_image = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), 1)
+            dst_image = aug_name(src_image)
+            cv2.imencode(os.path.splitext(img_name)[-1], dst_image)[1].tofile(dst_path)
+        print(f"{aug_name_list[idx]}已结束")
+        time.sleep(3)
