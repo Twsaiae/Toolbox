@@ -8,7 +8,8 @@ import numpy as np
 # from scipy.misc import imread
 # from imageio import imread
 import imageio.v2 as imageio
-filepath = 'E:/pycharmproject/mm_cls/data/train/1'  # the path of dataset
+# filepath = 'E:/pycharmproject/mm_cls/data/train/1'  # the path of dataset
+filepath = r'C:\Users\Thor\Downloads\ConvNextV2_Demo\ConvNextV2_Demo\data/train/baihe'  # the path of dataset
 pathDir = os.listdir(filepath)
 
 R_channel = 0
