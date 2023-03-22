@@ -26,8 +26,9 @@ def one_cls_aug(image_list, aug_ratio, aug_method_list):
     method_num = len(aug_method_list)
 
     # 增加的比例小于1就报错,大于可以增加的极限比例就报错
-    assert 1 <= aug_ratio <= pow(2,
-                                 method_num), f"您输入的增强比例不满足要求，比例需在1-{pow(2, method_num)}之间，您还可以通过添加增强方法来提高比例上限"
+    # assert 1 <= aug_ratio <= pow(2,
+    #                              method_num), f"您输入的增强比例不满足要求，比例需在1-{pow(2, method_num)}之间，您还可以通过添加增强方法来提高比例上限"
+    assert 1 <= aug_ratio
 
     # 1、要求数据需要增加的比例<=2(原图数量*2>=需要达到的数据量)      遍历原图采取随机方法增强，直到达到目标数量
     if aug_ratio <= 2:
@@ -51,7 +52,8 @@ def one_cls_aug(image_list, aug_ratio, aug_method_list):
                 after_aug_image_list.append(aug_method_list[i](one_image))
 
     # 3、要求数据增加的比例<=数据增加可用方法的组合极限（原图数量*（2的n次方，n为增强方法的数量）） 采用自己做这件事的思路来循环，增强后放回，在对放回后的完整数据增强，然后再放回
-    elif aug_ratio <= pow(2, method_num):
+    # elif aug_ratio <= pow(2, method_num):
+    else:
         count = 0
         for i in range(math.ceil(math.log(aug_ratio, 2))):
             one_aug_image_list = []

@@ -9,8 +9,8 @@ from shutil import copy
 import random
 from tqdm import tqdm
 
-data_path = r'\\192.168.1.200\公用共享\孙志青\2023.2_data_clean\棱边\train'
-test_ratio = 0
+data_path = r'C:\Users\Thor\Downloads\大面\四合一_placed_well\train_placed_well\train'
+test_ratio = 0.2
 valid_ratio = 0.2
 
 dst_data_path = f"{data_path}_placed_well"

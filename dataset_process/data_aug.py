@@ -86,6 +86,40 @@ def Brighter(image, percetage=1.3):
     return image_copy
 
 
+def adjust_brightness(image, value=50):
+    """
+    调整图像的明亮度
+    :param image: 图像
+    :param value: 明亮度增加的值，可以为正数或负数
+    :return: 调整后的图像
+    """
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+    v = np.where((255 - v) < value, 255, v + value)
+    v = np.where(v < 0, 0, v)
+    v = v.astype(dtype='uint8')
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img
+
+
+def adjust_darkness(image, value=-30):
+    """
+    调整图像的明亮度
+    :param image: 图像
+    :param value: 明亮度增加的值，可以为正数或负数
+    :return: 调整后的图像
+    """
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+    v = np.where((255 - v) < value, 255, v + value)
+    v = np.where(v < 0, 0, v)
+    v = v.astype(dtype='uint8')
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img
+
+
 # 平移
 def Move(img, x, y):
     img_info = img.shape
@@ -264,33 +298,26 @@ def random_move(root_path, imagefile_name):
 
 
 if __name__ == "__main__":
-    # test_jpg_loc = r"E:\项目整理\0_2023_213\class图片\大面_4\0_cando\大面凹坑细分(轻微凹坑)cls_11_10-2023-2-8 15-11-33_placed_well\val\严重凹坑\0.999232_TB_0IQCB17940000HCAM9001289_2022_1.bmp"
-    # test_jpg_loc = r"1.png"
-    # test_jpg = cv2.imread(test_jpg_loc)
-    # cv2.imshow("Show Img", test_jpg)
-    # # img_scale = Scale(test_jpg, 1.5, 1.5)
-    # # cv2.imwrite(os.path.join(a, "scaledl" + file_i), img_scale)
-    # # cv2.imwrite('try.jpg', img1)
-    # # cv2.waitKey(0)
-    # # img2 = GaussianNoise(test_jpg,0.01)
-    # output_img = Horizontal(test_jpg)
-    # # output_img = Vertical(test_jpg)
-    # cv2.imshow("Img 2", output_img)
-    # cv2.waitKey(0)
-    src = r'C:\Users\Thor\Desktop\noone\image1\all_image'
-    aug_name_list = ["horizontal", "vertical", "blur", "brighter", "darker"]
-    aug_list = [Horizontal, Vertical, Blur, Brighter, Darker]
 
-    for idx, aug_name in enumerate(aug_list):
-        print(f"{aug_name_list[idx]}开始进行...")
-        dst = src + f"_{aug_name_list[idx]}"
-        os.makedirs(dst, exist_ok=True)
-        for img_name in tqdm(os.listdir(src)):
-            img_path = os.path.join(src, img_name)
-            dst_path = f"{dst}/{os.path.splitext(img_name)[0]}_{aug_name_list[idx]}{os.path.splitext(img_name)[-1]}"
-
-            src_image = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), 1)
-            dst_image = aug_name(src_image)
-            cv2.imencode(os.path.splitext(img_name)[-1], dst_image)[1].tofile(dst_path)
-        print(f"{aug_name_list[idx]}已结束")
-        time.sleep(3)
+    # src = r'C:\Users\Thor\Desktop\noone\image1\all_image'
+    # aug_name_list = ["horizontal", "vertical", "blur", "brighter", "darker"]
+    # aug_list = [Horizontal, Vertical, Blur, Brighter, Darker]
+    #
+    # for idx, aug_name in enumerate(aug_list):
+    #     print(f"{aug_name_list[idx]}开始进行...")
+    #     dst = src + f"_{aug_name_list[idx]}"
+    #     os.makedirs(dst, exist_ok=True)
+    #     for img_name in tqdm(os.listdir(src)):
+    #         img_path = os.path.join(src, img_name)
+    #         dst_path = f"{dst}/{os.path.splitext(img_name)[0]}_{aug_name_list[idx]}{os.path.splitext(img_name)[-1]}"
+    #
+    #         src_image = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), 1)
+    #         dst_image = aug_name(src_image)
+    #         cv2.imencode(os.path.splitext(img_name)[-1], dst_image)[1].tofile(dst_path)
+    #     print(f"{aug_name_list[idx]}已结束")
+    #     time.sleep(3)
+    img = cv2.imdecode(np.fromfile(r'C:\Users\Thor\Downloads\大面\四合一\中气泡\0.492772_TB_0IQCB17940000HCAK9003508_2022_1.bmp', dtype=np.uint8), 1)
+    img2 = adjust_brightness(img)
+    cv2.imshow('img', img)
+    cv2.imshow('img2', img2)
+    cv2.waitKey(0)

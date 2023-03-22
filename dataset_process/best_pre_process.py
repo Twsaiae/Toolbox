@@ -37,7 +37,7 @@ if __name__ == '__main__':
     for i in img_list:
         path = os.path.join(src, i)
         dst_path = os.path.join(dst, i)
-        image = cv2.imread(path, 0)
+        image = cv2.imread(path)
         gam = gama_transfer(image, 1.5)
         gam = cv2.cvtColor(gam, cv2.COLOR_RGB2GRAY)
         equ = cv2.equalizeHist(gam)
